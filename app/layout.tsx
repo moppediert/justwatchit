@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full dark">
-      <body className="h-full">{children}</body>
+      <body className="h-full py-8">{children}</body>
     </html>
   );
 }

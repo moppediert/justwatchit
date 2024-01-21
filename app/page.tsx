@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React, { FormEvent } from "react";
@@ -125,9 +124,18 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="border-4 h-full flex flex-col justify-center items-center">
-      <div className="w-1/2 flex flex-col gap-4">
-        <form className="flex w-full items-center gap-2" onSubmit={onSearch}>
+    <div className="min-h-full h-fit w-full flex flex-col justify-start items-center gap-8 pb-8">
+      <div className="px-8">
+        <div className="text-4xl font-mono">Just Watch It</div>
+        <div className="font-mono">
+          Search and watch YouTube videos. No more. No less.
+        </div>
+      </div>
+      <div className="w-3/4 md:w-1/2 flex flex-col gap-4">
+        <form
+          className="flex flex-col md:flex-row w-full items-center gap-2"
+          onSubmit={onSearch}
+        >
           <Input
             ref={searchFieldRef}
             autoFocus
@@ -141,12 +149,13 @@ export default function Home() {
             Search
           </Button>
         </form>
+        <div className="h-2"></div>
         {searchResults.map((result: VideoMetadata, i: number) => {
           return (
             <div
               ref={(el) => (firstResultField.current[i] = el)}
-              tabIndex={i}
-              className="flex w-full items-center gap-4 cursor-pointer border-b border-b-transparent hover:border-b-primary transition-all duration-300"
+              tabIndex={0}
+              className="flex flex-col md:flex-row w-full items-center gap-4 cursor-pointer border-b-2 border-b-transparent hover:border-b-2 hover:border-b-secondary focus:outline-secondary focus:outline focus:rounded transition duration-300"
               key={result.id}
               onClick={() => {
                 setPlayingUrl(result.id);
