@@ -131,11 +131,8 @@ export default function Home() {
           Search and watch YouTube videos. No more. No less.
         </div>
       </div>
-      <div className="w-3/4 md:w-1/2 flex flex-col gap-4">
-        <form
-          className="flex flex-col md:flex-row w-full items-center gap-2"
-          onSubmit={onSearch}
-        >
+      <div className="w-full lg:w-1/2 sm:w-3/4 flex flex-col gap-4 px-8">
+        <form className="flex w-full items-center gap-2" onSubmit={onSearch}>
           <Input
             ref={searchFieldRef}
             autoFocus
@@ -155,7 +152,7 @@ export default function Home() {
             <div
               ref={(el) => (firstResultField.current[i] = el)}
               tabIndex={0}
-              className="flex flex-col md:flex-row w-full items-center gap-4 cursor-pointer border-b-2 border-b-transparent hover:border-b-2 hover:border-b-secondary focus:outline-secondary focus:outline focus:rounded transition duration-300"
+              className="flex flex-col md:flex-row w-full items-center gap-x-4 gap-y-2 cursor-pointer border-b-2 border-b-transparent hover:border-b-2 hover:border-b-secondary focus:outline-secondary focus:outline focus:rounded transition duration-300"
               key={result.id}
               onClick={() => {
                 setPlayingUrl(result.id);
@@ -172,6 +169,7 @@ export default function Home() {
                 alt="thumbnail"
               ></img>
               <div className="text-lg">{result.title}</div>
+              <div className="h-2"></div>
             </div>
           );
         })}
