@@ -12,8 +12,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full dark">
-      <body className="h-full py-8">{children}</body>
+    <html lang="en" className="h-full dark overscroll-none">
+      <body className="h-full py-8 overscroll-none">{children}</body>
     </html>
   );
 }
