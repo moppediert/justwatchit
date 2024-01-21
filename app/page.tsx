@@ -3,14 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React, { FormEvent } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 interface VideoMetadata {
   id: string;
@@ -20,6 +13,7 @@ interface VideoMetadata {
 
 interface RawSearchResult {
   id: {
+    kind: string;
     videoId: string;
   };
   snippet: {
@@ -36,7 +30,13 @@ function url(term: string) {
   console.log(process.env.NEXT_PUBLIC_API_KEY as string);
   return `https://www.googleapis.com/youtube/v3/search?key=${
     process.env.NEXT_PUBLIC_API_KEY as string
-  }&part=id,snippet&q=${term}`;
+  }&part=id,snippet&q=${term}&maxResults=10`;
+}
+
+function parseTitle(title: string): string {
+  var txt = document.createElement("textarea");
+  txt.innerHTML = title;
+  return txt.value;
 }
 
 export default function Home() {
@@ -47,13 +47,18 @@ export default function Home() {
     e.preventDefault();
     fetch(url(searchTerm)).then((r) =>
       r.json().then((j) => {
-        const result = j.items.map((vid: RawSearchResult) => {
-          return {
-            id: vid.id.videoId,
-            title: vid.snippet.title,
-            thumbnail: vid.snippet.thumbnails.high.url,
-          } as VideoMetadata;
-        });
+        const result = j.items
+          .filter((vid: RawSearchResult) => {
+            return vid.id.kind == "youtube#video";
+          })
+          .slice(0, 5)
+          .map((vid: RawSearchResult) => {
+            return {
+              id: vid.id.videoId,
+              title: parseTitle(vid.snippet.title),
+              thumbnail: vid.snippet.thumbnails.high.url,
+            } as VideoMetadata;
+          });
         setSearchResults(result);
       })
     );
@@ -80,7 +85,7 @@ export default function Home() {
         {searchResults.map((result: VideoMetadata) => {
           return (
             <div
-              className="flex w-full items-center gap-4"
+              className="flex w-full items-center gap-4 cursor-pointer border-b border-b-transparent hover:border-b-primary transition-all duration-300"
               key={result.id}
               onClick={() => {
                 setPlayingUrl(result.id);
@@ -105,7 +110,7 @@ export default function Home() {
         >
           <iframe
             className="h-full w-full"
-            src={`https://www.youtube.com/embed/${playingUrl}`}
+            src={`https://www.youtube.com/embed/${playingUrl}?autoplay=1&iv_load_policy=3&rel=0`}
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
