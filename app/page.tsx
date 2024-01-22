@@ -126,7 +126,7 @@ export default function Home() {
   return (
     <div className="min-h-full h-fit w-full flex flex-col justify-start items-center gap-8 pb-8">
       <div className="px-8">
-        <div className="text-4xl font-mono">Just Watch It</div>
+        <div className="text-4xl font-mono text-primary">Just Watch It</div>
         <div className="font-mono">
           Search and watch YouTube videos. No more. No less.
         </div>
@@ -152,7 +152,7 @@ export default function Home() {
             <div
               ref={(el) => (firstResultField.current[i] = el)}
               tabIndex={0}
-              className="flex flex-col md:flex-row w-full items-center gap-x-4 gap-y-2 cursor-pointer border-b-2 border-b-transparent hover:border-b-2 hover:border-b-secondary focus:outline-secondary focus:outline focus:rounded transition duration-300"
+              className="flex flex-col md:flex-row w-full items-center gap-x-4 gap-y-2 cursor-pointer border-b-2 border-b-transparent hover:border-b-2 hover:border-b-primary focus:outline-primary focus:outline focus:rounded transition duration-150"
               key={result.id}
               onClick={() => {
                 setVideoId(result.id);
