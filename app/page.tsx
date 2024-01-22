@@ -62,7 +62,7 @@ export default function Home() {
             } as VideoMetadata;
           });
         setSearchResults(result);
-      })
+      }),
     );
   };
 
@@ -124,14 +124,14 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-full h-fit w-full flex flex-col justify-start items-center gap-8 pb-8">
+    <div className="flex h-fit min-h-full w-full flex-col items-center justify-start gap-8 pb-8">
       <div className="px-8">
-        <div className="text-4xl font-mono text-primary">Just Watch It</div>
+        <div className="font-mono text-4xl text-primary">Just Watch It</div>
         <div className="font-mono">
           Search and watch YouTube videos. No more. No less.
         </div>
       </div>
-      <div className="w-full lg:w-1/2 sm:w-3/4 flex flex-col gap-4 px-8">
+      <div className="flex w-full flex-col gap-4 px-8 sm:w-3/4 lg:w-1/2">
         <form className="flex w-full items-center gap-2" onSubmit={onSearch}>
           <Input
             ref={searchFieldRef}
@@ -152,7 +152,7 @@ export default function Home() {
             <div
               ref={(el) => (firstResultField.current[i] = el)}
               tabIndex={0}
-              className="flex flex-col md:flex-row w-full items-center gap-x-4 gap-y-2 cursor-pointer border-b-2 border-b-transparent hover:border-b-2 hover:border-b-primary focus:outline-primary focus:outline focus:rounded transition duration-150"
+              className="flex w-full cursor-pointer flex-col items-center gap-x-4 gap-y-2 border-b-2 border-b-transparent transition duration-150 hover:border-b-2 hover:border-b-primary focus:rounded focus:outline focus:outline-primary md:flex-row"
               key={result.id}
               onClick={() => {
                 setVideoId(result.id);
@@ -176,7 +176,7 @@ export default function Home() {
       <Dialog open={playing} onOpenChange={setPlaying}>
         <DialogContent
           onPointerDownOutside={(e) => e.preventDefault()}
-          className="max-w-full md:w-2/3 lg:w-3/5 aspect-video p-0 border-0"
+          className="aspect-video max-w-full border-0 p-0 md:w-2/3 lg:w-3/5"
         >
           <iframe
             className="h-full w-full"
