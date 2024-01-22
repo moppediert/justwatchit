@@ -25,18 +25,10 @@ interface RawSearchResult {
   };
 }
 
-function fetchVideos(term: string, token?: string) {
-  const url =
-    `https://www.googleapis.com/youtube/v3/search?part=id,snippet&q=${term}&maxResults=10` +
-    (token ? "" : `&key=${process.env.NEXT_PUBLIC_API_KEY as string}`);
-  const options = token
-    ? {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    : {};
-  return fetch(url, options);
+function fetchVideos(term: string) {
+  const key = process.env.NEXT_PUBLIC_API_KEY as string;
+  const url = `https://www.googleapis.com/youtube/v3/search?part=id,snippet&q=${term}&maxResults=10&key=${key}`;
+  return fetch(url);
 }
 
 function parseTitle(title: string): string {
@@ -170,7 +162,11 @@ export default function Home() {
                 e.key === "Enter" ? e.currentTarget.click() : false
               }
             >
-              <img width={180} src={result.thumbnail} alt="thumbnail"></img>
+              <img
+                width={180}
+                src={result.thumbnail}
+                alt={`Thumbnail ${result.title}`}
+              ></img>
               <div className="text-lg">{result.title}</div>
               <div className="h-2"></div>
             </div>
