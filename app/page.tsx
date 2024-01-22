@@ -41,6 +41,20 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [searchResults, setSearchResults] = React.useState([]);
 
+  const params =
+    typeof window !== "undefined"
+      ? new URL(document.location.toString()).searchParams
+      : undefined;
+  const play = params?.get("play");
+
+  React.useEffect(() => {
+    if (play) {
+      setVideoId(play);
+      setPlaying(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const onSearch = (e: FormEvent) => {
     e.preventDefault();
     if (searchTerm.length === 0) {
@@ -69,6 +83,13 @@ export default function Home() {
   const [videoId, setVideoId] = React.useState("");
   const [playing, setPlaying] = React.useState(false);
 
+  const playPause = (id?: string) => {
+    const path = `${location.pathname}` + (id ? `?play=${id}` : "");
+    history.pushState({}, "", path);
+    setVideoId(id ?? "");
+    setPlaying(Boolean(id));
+  };
+
   const searchFieldRef = React.useRef<HTMLInputElement>(null);
   const firstResultField = React.useRef<[HTMLDivElement | null]>([null]);
 
@@ -85,7 +106,7 @@ export default function Home() {
 
       if (e.key === "Escape") {
         e.preventDefault();
-        setPlaying(false);
+        playPause();
         return;
       }
 
@@ -154,14 +175,12 @@ export default function Home() {
               tabIndex={0}
               className="flex w-full cursor-pointer flex-col items-center gap-x-4 gap-y-2 border-b-2 border-b-transparent transition duration-150 hover:border-b-2 hover:border-b-primary focus:rounded focus:outline focus:outline-primary md:flex-row"
               key={result.id}
-              onClick={() => {
-                setVideoId(result.id);
-                setPlaying(true);
-              }}
+              onClick={() => playPause(result.id)}
               onKeyDown={(e) =>
                 e.key === "Enter" ? e.currentTarget.click() : false
               }
             >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 width={180}
                 src={result.thumbnail}
@@ -173,7 +192,14 @@ export default function Home() {
           );
         })}
       </div>
-      <Dialog open={playing} onOpenChange={setPlaying}>
+      <Dialog
+        open={playing}
+        onOpenChange={(v) => {
+          if (!v) {
+            playPause();
+          }
+        }}
+      >
         <DialogContent
           onPointerDownOutside={(e) => e.preventDefault()}
           className="aspect-video max-w-full border-0 p-0 md:w-2/3 lg:w-3/5"
