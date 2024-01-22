@@ -41,6 +41,8 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [searchResults, setSearchResults] = React.useState([]);
 
+  const [videoId, setVideoId] = React.useState("");
+
   const params =
     typeof window !== "undefined"
       ? new URL(document.location.toString()).searchParams
@@ -50,7 +52,6 @@ export default function Home() {
   React.useEffect(() => {
     if (play) {
       setVideoId(play);
-      setPlaying(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -80,14 +81,10 @@ export default function Home() {
     );
   };
 
-  const [videoId, setVideoId] = React.useState("");
-  const [playing, setPlaying] = React.useState(false);
-
   const playPause = (id?: string) => {
     const path = `${location.pathname}` + (id ? `?play=${id}` : "");
     history.pushState({}, "", path);
     setVideoId(id ?? "");
-    setPlaying(Boolean(id));
   };
 
   const searchFieldRef = React.useRef<HTMLInputElement>(null);
@@ -194,7 +191,7 @@ export default function Home() {
         </div>
       </div>
       <Dialog
-        open={playing}
+        open={Boolean(videoId)}
         onOpenChange={(v) => {
           if (!v) {
             playPause();
