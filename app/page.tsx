@@ -140,16 +140,16 @@ export default function Home() {
     return () => document.removeEventListener("keydown", down);
   }, []);
 
-  const login = useGoogleLogin({
-    onSuccess: (credentialResponse) => {
-      console.log(credentialResponse);
-      setAccessToken(credentialResponse.access_token);
-    },
-    onError: () => {
-      console.log("Login Failed");
-    },
-    scope: "https://www.googleapis.com/auth/youtube.readonly",
-  });
+  // const login = useGoogleLogin({
+  //   onSuccess: (credentialResponse) => {
+  //     console.log(credentialResponse);
+  //     setAccessToken(credentialResponse.access_token);
+  //   },
+  //   onError: () => {
+  //     console.log("Login Failed");
+  //   },
+  //   scope: "https://www.googleapis.com/auth/youtube.readonly",
+  // });
 
   return (
     <div className="min-h-full h-fit w-full flex flex-col justify-start items-center gap-8 pb-8">
