@@ -3,12 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import React, { FormEvent } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import {
-  GoogleLogin,
-  GoogleOAuthProvider,
-  useGoogleLogin,
-  useGoogleOneTapLogin,
-} from "@react-oauth/google";
 
 interface VideoMetadata {
   id: string;
@@ -54,9 +48,6 @@ function parseTitle(title: string): string {
 export default function Home() {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [searchResults, setSearchResults] = React.useState([]);
-  const [accessToken, setAccessToken] = React.useState<string | undefined>(
-    undefined
-  );
 
   const onSearch = (e: FormEvent) => {
     e.preventDefault();
@@ -64,7 +55,7 @@ export default function Home() {
       setSearchResults([]);
       return;
     }
-    fetchVideos(searchTerm, accessToken).then((r) =>
+    fetchVideos(searchTerm).then((r) =>
       r.json().then((j) => {
         const result = j.items
           .filter((vid: RawSearchResult) => {
@@ -140,17 +131,6 @@ export default function Home() {
     return () => document.removeEventListener("keydown", down);
   }, []);
 
-  // const login = useGoogleLogin({
-  //   onSuccess: (credentialResponse) => {
-  //     console.log(credentialResponse);
-  //     setAccessToken(credentialResponse.access_token);
-  //   },
-  //   onError: () => {
-  //     console.log("Login Failed");
-  //   },
-  //   scope: "https://www.googleapis.com/auth/youtube.readonly",
-  // });
-
   return (
     <div className="min-h-full h-fit w-full flex flex-col justify-start items-center gap-8 pb-8">
       <div className="px-8">
@@ -211,12 +191,6 @@ export default function Home() {
           ></iframe>
         </DialogContent>
       </Dialog>
-
-      {/* {accessToken ? ( */}
-      {/*   <></> */}
-      {/* ) : ( */}
-      {/*   <Button onClick={() => login()}>Sign in with Google</Button> */}
-      {/* )} */}
     </div>
   );
 }
