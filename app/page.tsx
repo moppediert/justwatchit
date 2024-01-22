@@ -24,7 +24,7 @@ interface RawSearchResult {
   snippet: {
     title: string;
     thumbnails: {
-      high: {
+      medium: {
         url: string;
       };
     };
@@ -75,7 +75,7 @@ export default function Home() {
             return {
               id: vid.id.videoId,
               title: parseTitle(vid.snippet.title),
-              thumbnail: vid.snippet.thumbnails.high.url,
+              thumbnail: vid.snippet.thumbnails.medium.url,
             } as VideoMetadata;
           });
         setSearchResults(result);
@@ -83,7 +83,7 @@ export default function Home() {
     );
   };
 
-  const [playingUrl, setPlayingUrl] = React.useState("");
+  const [videoId, setVideoId] = React.useState("");
   const [playing, setPlaying] = React.useState(false);
 
   const searchFieldRef = React.useRef<HTMLInputElement>(null);
@@ -183,19 +183,14 @@ export default function Home() {
               className="flex flex-col md:flex-row w-full items-center gap-x-4 gap-y-2 cursor-pointer border-b-2 border-b-transparent hover:border-b-2 hover:border-b-secondary focus:outline-secondary focus:outline focus:rounded transition duration-300"
               key={result.id}
               onClick={() => {
-                setPlayingUrl(result.id);
+                setVideoId(result.id);
                 setPlaying(true);
               }}
               onKeyDown={(e) =>
                 e.key === "Enter" ? e.currentTarget.click() : false
               }
             >
-              <img
-                width={180}
-                height={120}
-                src={result.thumbnail}
-                alt="thumbnail"
-              ></img>
+              <img width={180} src={result.thumbnail} alt="thumbnail"></img>
               <div className="text-lg">{result.title}</div>
               <div className="h-2"></div>
             </div>
@@ -209,7 +204,7 @@ export default function Home() {
         >
           <iframe
             className="h-full w-full"
-            src={`https://www.youtube.com/embed/${playingUrl}?autoplay=1&iv_load_policy=3&rel=0`}
+            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&iv_load_policy=3&rel=0`}
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
