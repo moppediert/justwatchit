@@ -205,7 +205,7 @@ export default function Home() {
       <Dialog open={playing} onOpenChange={setPlaying}>
         <DialogContent
           onPointerDownOutside={(e) => e.preventDefault()}
-          className="max-w-full w-3/5 h-3/5 p-0 border-0"
+          className="max-w-full w-3/5 aspect-video p-0 border-0"
         >
           <iframe
             className="h-full w-full"
