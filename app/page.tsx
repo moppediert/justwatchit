@@ -167,30 +167,31 @@ export default function Home() {
             Search
           </Button>
         </form>
-        <div className="h-2"></div>
-        {searchResults.map((result: VideoMetadata, i: number) => {
-          return (
-            <div
-              ref={(el) => (firstResultField.current[i] = el)}
-              tabIndex={0}
-              className="flex w-full cursor-pointer flex-col items-center gap-x-4 gap-y-2 border-b-2 border-b-transparent transition duration-150 hover:border-b-2 hover:border-b-primary focus:rounded focus:outline focus:outline-primary md:flex-row"
-              key={result.id}
-              onClick={() => playPause(result.id)}
-              onKeyDown={(e) =>
-                e.key === "Enter" ? e.currentTarget.click() : false
-              }
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                width={180}
-                src={result.thumbnail}
-                alt={`Thumbnail ${result.title}`}
-              ></img>
-              <div className="text-lg">{result.title}</div>
-              <div className="h-2"></div>
-            </div>
-          );
-        })}
+        <div className="h-4"></div>
+        <div className="flex flex-col gap-8">
+          {searchResults.map((result: VideoMetadata, i: number) => {
+            return (
+              <div
+                ref={(el) => (firstResultField.current[i] = el)}
+                tabIndex={0}
+                className="flex w-full cursor-pointer flex-col items-center gap-x-4 gap-y-2 border-b-2 border-b-transparent transition duration-150 hover:border-b-2 hover:border-b-primary focus:rounded focus:outline focus:outline-primary md:flex-row"
+                key={result.id}
+                onClick={() => playPause(result.id)}
+                onKeyDown={(e) =>
+                  e.key === "Enter" ? e.currentTarget.click() : false
+                }
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  width={180}
+                  src={result.thumbnail}
+                  alt={`Thumbnail ${result.title}`}
+                ></img>
+                <div className="text-lg">{result.title}</div>
+              </div>
+            );
+          })}
+        </div>
       </div>
       <Dialog
         open={playing}
