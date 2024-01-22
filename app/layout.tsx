@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Just Watch It",
-  description: "Search and Watch YouTube videos. No more. No less.",
+  description: "Search and watch YouTube videos. No more. No less.",
 };
 
 export default function RootLayout({
