@@ -35,7 +35,7 @@ function fetchVideos(term: string) {
 }
 
 function parseTitle(title: string): string {
-  var txt = document.createElement("textarea");
+  let txt = document.createElement("textarea");
   txt.innerHTML = title;
   return txt.value;
 }
