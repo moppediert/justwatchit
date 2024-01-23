@@ -25,9 +25,12 @@ interface RawSearchResult {
   };
 }
 
+const NUM_RESULTS = 10;
+const NUM_VIDEOS = 5;
+
 function fetchVideos(term: string) {
   const key = process.env.NEXT_PUBLIC_API_KEY as string;
-  const url = `https://www.googleapis.com/youtube/v3/search?part=id,snippet&q=${term}&maxResults=10&key=${key}`;
+  const url = `https://www.googleapis.com/youtube/v3/search?part=id,snippet&q=${term}&maxResults=${NUM_RESULTS}&key=${key}`;
   return fetch(url);
 }
 
@@ -68,7 +71,7 @@ export default function Home() {
           .filter((vid: RawSearchResult) => {
             return vid.id.kind == "youtube#video";
           })
-          .slice(0, 5)
+          .slice(0, NUM_VIDEOS)
           .map((vid: RawSearchResult) => {
             return {
               id: vid.id.videoId,
@@ -107,19 +110,25 @@ export default function Home() {
         return;
       }
 
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < NUM_VIDEOS; i++) {
         if (firstResultField.current.at(i) === document.activeElement) {
           if (e.key === "j") {
             e.preventDefault();
-            if (i !== 4) firstResultField.current.at(i + 1)?.focus();
-            else firstResultField.current.at(0)?.focus();
+            if (i !== NUM_VIDEOS - 1) {
+              firstResultField.current.at(i + 1)?.focus();
+            } else {
+              firstResultField.current.at(0)?.focus();
+            }
             return;
           }
 
           if (e.key === "k") {
             e.preventDefault();
-            if (i !== 0) firstResultField.current.at(i - 1)?.focus();
-            else firstResultField.current.at(4)?.focus();
+            if (i !== 0) {
+              firstResultField.current.at(i - 1)?.focus();
+            } else {
+              firstResultField.current.at(NUM_VIDEOS - 1)?.focus();
+            }
             return;
           }
         }
@@ -133,7 +142,7 @@ export default function Home() {
 
       if (e.key === "k") {
         e.preventDefault();
-        firstResultField.current.at(4)?.focus();
+        firstResultField.current.at(NUM_VIDEOS - 1)?.focus();
         return;
       }
     };
