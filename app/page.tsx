@@ -91,7 +91,7 @@ export default function Home() {
   };
 
   const searchFieldRef = React.useRef<HTMLInputElement>(null);
-  const firstResultField = React.useRef<[HTMLDivElement | null]>([null]);
+  const resultFieldRef = React.useRef<[HTMLDivElement | null]>([null]);
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -111,13 +111,13 @@ export default function Home() {
       }
 
       for (let i = 0; i < NUM_VIDEOS; i++) {
-        if (firstResultField.current.at(i) === document.activeElement) {
+        if (resultFieldRef.current.at(i) === document.activeElement) {
           if (e.key === "j") {
             e.preventDefault();
             if (i !== NUM_VIDEOS - 1) {
-              firstResultField.current.at(i + 1)?.focus();
+              resultFieldRef.current.at(i + 1)?.focus();
             } else {
-              firstResultField.current.at(0)?.focus();
+              resultFieldRef.current.at(0)?.focus();
             }
             return;
           }
@@ -125,9 +125,9 @@ export default function Home() {
           if (e.key === "k") {
             e.preventDefault();
             if (i !== 0) {
-              firstResultField.current.at(i - 1)?.focus();
+              resultFieldRef.current.at(i - 1)?.focus();
             } else {
-              firstResultField.current.at(NUM_VIDEOS - 1)?.focus();
+              resultFieldRef.current.at(NUM_VIDEOS - 1)?.focus();
             }
             return;
           }
@@ -136,13 +136,13 @@ export default function Home() {
 
       if (e.key === "j") {
         e.preventDefault();
-        firstResultField.current.at(0)?.focus();
+        resultFieldRef.current.at(0)?.focus();
         return;
       }
 
       if (e.key === "k") {
         e.preventDefault();
-        firstResultField.current.at(NUM_VIDEOS - 1)?.focus();
+        resultFieldRef.current.at(NUM_VIDEOS - 1)?.focus();
         return;
       }
     };
@@ -178,7 +178,7 @@ export default function Home() {
           {searchResults.map((result: VideoMetadata, i: number) => {
             return (
               <div
-                ref={(el) => (firstResultField.current[i] = el)}
+                ref={(el) => (resultFieldRef.current[i] = el)}
                 tabIndex={0}
                 className="flex w-full cursor-pointer flex-col items-center gap-x-4 gap-y-2 border-b-2 border-b-transparent transition duration-150 hover:border-b-2 hover:border-b-primary focus:rounded focus:outline focus:outline-primary md:flex-row"
                 key={result.id}
